@@ -3,9 +3,9 @@ import {
     createEmpleado,
     deleteEmpleado,
     getEmpleado,
-    getEmpleado,
+    getEmpleados,
     updateEmpleado,
-} from "../controllers/Empleados.controller.js";
+} from "../controllers/empleados.controller.js";
 
 const router = Router();
 
@@ -13,14 +13,14 @@ const router = Router();
 router.get("/empleados", getEmpleados);
 
 // GET An Employee
-router.get("/empleados/:id", getEmpleados);
+router.get("/empleados/:idEmpleado", getEmpleados);
 
 // DELETE An Employee
-router.delete("/empleados/:id", deleteEmpleados);
+router.delete("/empleados/:idEmpleado", deleteEmpleados);
 
 // INSERT An Employee
 router.post("/empleados", createEmpleados);
 
-router.patch("/empleados/:id", updateEmpleados);
+router.patch("/empleados/:idEmpleado", updateEmpleados);
 
 export default router;

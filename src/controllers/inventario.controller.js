@@ -2,22 +2,22 @@ import { pool } from "../db.js";
 
 export const getInventarios = async (req, res) => {
     try {
-        const [rows] = await pool.query("SELECT * FROM Inventario");
+        const [rows] = await pool.query("SELECT * FROM inventario");
         res.json(rows);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
     }
 };
 
-export const getInventario = async (req, res) => {
+export const getinventario = async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query("SELECT * FROM Inventario WHERE id = ?", [
+        const [rows] = await pool.query("SELECT * FROM inventario WHERE id = ?", [
             id,
         ]);
 
         if (rows.length <= 0) {
-            return res.status(404).json({ message: "Inventario not found" });
+            return res.status(404).json({ message: "inventario not found" });
         }
 
         res.json(rows[0]);
@@ -26,13 +26,13 @@ export const getInventario = async (req, res) => {
     }
 };
 
-export const deleteInventario = async (req, res) => {
+export const deleteinventario = async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query("DELETE FROM Inventario WHERE id = ?", [id]);
+        const [rows] = await pool.query("DELETE FROM inventario WHERE id = ?", [id]);
 
         if (rows.affectedRows <= 0) {
-            return res.status(404).json({ message: "Inventario not found" });
+            return res.status(404).json({ message: "inventario not found" });
         }
 
         res.sendStatus(204);
@@ -43,31 +43,31 @@ export const deleteInventario = async (req, res) => {
 
 export const createInventarios = async (req, res) => {
     try {
-        const { accesorios, autos, } = req.body;
+        const { nombreAuto, marcaAuto} = req.body;
         const [rows] = await pool.query(
-            "INSERT INTO Inventario (accesorios, autos,) VALUES (?, ?)",
-            [accesorios, autos,]
+            "INSERT INTO inventario (nombreAuto, marcaAuto) VALUES (?, ?)",
+            [nombreAuto, marcaAuto]
         );
-        res.status(201).json({ id: rows.insertId, accesorios, autos, });
+        res.status(201).json({ idAuto: rows.insertId, nombreAuto, marcaAuto });
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
     }
 };
 
-export const updateInventario = async (req, res) => {
+export const updateinventario = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { accesorios, autos, } = req.body;
+        const { idAuto } = req.params;
+        const { nombreAuto, marcaAuto, } = req.body;
 
         const [result] = await pool.query(
-            "UPDATE Inventarios SET accesorios = IFNULL(?, accesorios), autos, = IFNULL(?, autos,) WHERE id = ?",
-            [accesorios, autos, , id]
+            "UPDATE inventario SET nombreAuto = IFNULL(?, nombreAuto), marcaAuto = IFNULL(?, marcaAuto,) WHERE idAuto = ?",
+            [nombreAuto, marcaAuto, , idAuto]
         );
 
         if (result.affectedRows === 0)
             return res.status(404).json({ message: "inventario not found" });
 
-        const [rows] = await pool.query("SELECT * FROM inventarios WHERE id = ?", [
+        const [rows] = await pool.query("SELECT * FROM inventario WHERE id = ?", [
             id,
         ]);
 

@@ -2,7 +2,7 @@ import { pool } from "../db.js";
 
 export const getVentas = async (req, res) => {
     try {
-        const [rows] = await pool.query("SELECT * FROM venta");
+        const [rows] = await pool.query("SELECT * FROM ventas");
         res.json(rows);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
@@ -11,9 +11,9 @@ export const getVentas = async (req, res) => {
 
 export const getVenta = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("SELECT * FROM Venta WHERE id = ?", [
-            id,
+        const { idVenta } = req.params;
+        const [rows] = await pool.query("SELECT * FROM ventas WHERE idVenta = ?", [
+            idVenta,
         ]);
 
         if (rows.length <= 0) {
@@ -28,8 +28,8 @@ export const getVenta = async (req, res) => {
 
 export const deleteVenta = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("DELETE FROM Venta WHERE id = ?", [id]);
+        const { idVenta } = req.params;
+        const [rows] = await pool.query("DELETE FROM ventas WHERE idVenta = ?", [idVenta]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "Venta not found" });
@@ -41,34 +41,34 @@ export const deleteVenta = async (req, res) => {
     }
 };
 
-export const createVentas = async (req, res) => {
+export const createVenta = async (req, res) => {
     try {
-        const { precio, productos } = req.body;
+        const { idCoche, nombreCoche, precioCoche } = req.body;
         const [rows] = await pool.query(
-            "INSERT INTO Venta (precio, productos) VALUES (?, ?)",
-            [precio, productos]
+            "INSERT INTO ventas (idCoche. nombreCoche, precioCoche) VALUES (?, ?)",
+            [idCoche, nombreCoche, precioCoche]
         );
-        res.status(201).json({ id: rows.insertId, precio, productos });
+        res.status(201).json({ idVenta: rows.insertId, idCoche, nombreCoche, precioCoche });
     } catch (error) {
-        return res.status(500).json({ message: "Something goes wrong" });
+        return res.status(500).json({ message: "Algo salió mal" });
     }
 };
 
 export const updateVenta = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { precio, productos } = req.body;
+        const { idVenta } = req.params;
+        const { idCoche, nombreCoche, precioCoche } = req.body;
 
         const [result] = await pool.query(
-            "UPDATE Ventas SET precio = IFNULL(?, precio), productos = IFNULL(?, productos) WHERE id = ?",
-            [precio, productos, id]
+            "UPDATE ventas SET idCoche = IFNULL(?, idCoche), nombreCoche = IFNULL(?, nombreCoche) WHERE idVenta = ?",
+            [idCoche, nombreCoche, precioCoche]
         );
 
         if (result.affectedRows === 0)
             return res.status(404).json({ message: "Ventas not found" });
 
-        const [rows] = await pool.query("SELECT * FROM Ventas WHERE id = ?", [
-            id,
+        const [rows] = await pool.query("SELECT * FROM ventas WHERE idVenta = ?", [
+            idVenta,
         ]);
 
         res.json(rows[0]);

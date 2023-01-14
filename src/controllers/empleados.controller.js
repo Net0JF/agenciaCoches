@@ -2,7 +2,7 @@ import { pool } from "../db.js";
 
 export const getEmpleados = async (req, res) => {
     try {
-        const [rows] = await pool.query("SELECT * FROM empleado");
+        const [rows] = await pool.query("SELECT * FROM empleados");
         res.json(rows);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
@@ -11,9 +11,9 @@ export const getEmpleados = async (req, res) => {
 
 export const getEmpleado = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("SELECT * FROM empleado WHERE id = ?", [
-            id,
+        const { idEmpleado } = req.params;
+        const [rows] = await pool.query("SELECT * FROM empleado WHERE idEmpleado = ?", [
+            idEmpleado,
         ]);
 
         if (rows.length <= 0) {
@@ -28,8 +28,8 @@ export const getEmpleado = async (req, res) => {
 
 export const deleteEmpleado = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("DELETE FROM empleado WHERE id = ?", [id]);
+        const { idEmpleado } = req.params;
+        const [rows] = await pool.query("DELETE FROM empleado WHERE idEmpleado = ?", [idEmpleado]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "Empleado not found" });
@@ -43,12 +43,12 @@ export const deleteEmpleado = async (req, res) => {
 
 export const createEmpleados = async (req, res) => {
     try {
-        const { nombre, salario } = req.body;
+        const { nombreEmpleado, salarioEmpleado } = req.body;
         const [rows] = await pool.query(
-            "INSERT INTO empleado (nombre, salario) VALUES (?, ?)",
-            [nombre, salario]
+            "INSERT INTO empleado (nombreEmpleado, salarioEmpleado) VALUES (?, ?)",
+            [nombreEmpleado, salarioEmpleado]
         );
-        res.status(201).json({ id: rows.insertId, nombre, salario });
+        res.status(201).json({ idEmpleado: rows.insertId, nombreEmpleado, salarioEmpleado });
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
     }
@@ -56,19 +56,19 @@ export const createEmpleados = async (req, res) => {
 
 export const updateEmpleado = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { nombre, salario } = req.body;
+        const { idEmpleado } = req.params;
+        const { nombreEmpleado, salarioEmpleado } = req.body;
 
         const [result] = await pool.query(
-            "UPDATE empleados SET nombre = IFNULL(?, nombre), salario = IFNULL(?, salario) WHERE id = ?",
-            [nombre, salario, id]
+            "UPDATE empleados SET nombreEmpleado = IFNULL(?, nombreEmpleado), salarioEmpleado = IFNULL(?, salarioEmpleado) WHERE idEmpleado = ?",
+            [nombreEmpleado, salarioEmpleado, idEmpleado]
         );
 
         if (result.affectedRows === 0)
             return res.status(404).json({ message: "Empleado not found" });
 
-        const [rows] = await pool.query("SELECT * FROM empleados WHERE id = ?", [
-            id,
+        const [rows] = await pool.query("SELECT * FROM empleados WHERE idEmpleado = ?", [
+            idEmpleado,
         ]);
 
         res.json(rows[0]);

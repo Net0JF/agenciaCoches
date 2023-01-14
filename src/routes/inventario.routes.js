@@ -1,26 +1,26 @@
 import { Router } from "express";
 import {
-    createEmployee,
-    deleteEmployee,
-    getEmployee,
-    getEmployees,
-    updateEmployee,
-} from "../controllers/employees.controller.js";
+    createCoche,
+    deleteCoche,
+    getCoche,
+    getCoches,
+    updateCoche,
+} from "../controllers/coches.controller.js";
 
 const router = Router();
 
-// GET all Employees
-router.get("/employees", getEmployees);
+// GET todos los Coches
+router.get("/coches", getCoches);
 
-// GET An Employee
-router.get("/employees/:id", getEmployee);
+// GET un Coche
+router.get("/coches/:idCoche", getCoche);
 
-// DELETE An Employee
-router.delete("/employees/:id", deleteEmployee);
+// DELETE un Coche
+router.delete("/coches/:idCoche", deleteCoche);
 
-// INSERT An Employee
-router.post("/employees", createEmployee);
+// INSERT un Coche
+router.post("/coches", createCoche);
 
-router.patch("/employees/:id", updateEmployee);
+router.patch("/coches/:idCoche", updateCoche);
 
 export default router;
