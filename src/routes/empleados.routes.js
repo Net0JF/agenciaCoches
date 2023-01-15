@@ -1,9 +1,9 @@
 import { Router } from "express";
 import {
-    createEmpleado,
-    deleteEmpleado,
-    getEmpleado,
     getEmpleados,
+    getEmpleado,
+    deleteEmpleado,
+    createEmpleado,
     updateEmpleado,
 } from "../controllers/empleados.controller.js";
 
@@ -13,14 +13,14 @@ const router = Router();
 router.get("/empleados", getEmpleados);
 
 // GET An Employee
-router.get("/empleados/:idEmpleado", getEmpleados);
+router.get("/empleados/:idEmpleado", getEmpleado);
 
 // DELETE An Employee
-router.delete("/empleados/:idEmpleado", deleteEmpleados);
+router.delete("/empleados/:idEmpleado", deleteEmpleado);
 
 // INSERT An Employee
-router.post("/empleados", createEmpleados);
+router.post("/empleados", createEmpleado);
 
-router.patch("/empleados/:idEmpleado", updateEmpleados);
+router.patch("/empleados/:idEmpleado", updateEmpleado);
 
 export default router;

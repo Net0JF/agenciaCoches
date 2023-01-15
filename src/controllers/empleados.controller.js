@@ -41,7 +41,7 @@ export const deleteEmpleado = async (req, res) => {
     }
 };
 
-export const createEmpleados = async (req, res) => {
+export const createEmpleado = async (req, res) => {
     try {
         const { nombreEmpleado, salarioEmpleado } = req.body;
         const [rows] = await pool.query(

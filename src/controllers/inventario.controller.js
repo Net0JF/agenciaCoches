@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 
-export const getInventarios = async (req, res) => {
+export const getCoches = async (req, res) => {
     try {
         const [rows] = await pool.query("SELECT * FROM inventario");
         res.json(rows);
@@ -9,7 +9,7 @@ export const getInventarios = async (req, res) => {
     }
 };
 
-export const getinventario = async (req, res) => {
+export const getCoche = async (req, res) => {
     try {
         const { id } = req.params;
         const [rows] = await pool.query("SELECT * FROM inventario WHERE id = ?", [
@@ -26,7 +26,7 @@ export const getinventario = async (req, res) => {
     }
 };
 
-export const deleteinventario = async (req, res) => {
+export const deleteCoche = async (req, res) => {
     try {
         const { id } = req.params;
         const [rows] = await pool.query("DELETE FROM inventario WHERE id = ?", [id]);
@@ -41,27 +41,27 @@ export const deleteinventario = async (req, res) => {
     }
 };
 
-export const createInventarios = async (req, res) => {
+export const createCoche = async (req, res) => {
     try {
-        const { nombreAuto, marcaAuto} = req.body;
+        const { nombreCoche, marcaCoche, precioCoche} = req.body;
         const [rows] = await pool.query(
-            "INSERT INTO inventario (nombreAuto, marcaAuto) VALUES (?, ?)",
-            [nombreAuto, marcaAuto]
+            "INSERT INTO inventario (nombreCoche, marcaCoche, precioCoche) VALUES (?, ?, ?)",
+            [nombreCoche, marcaCoche, precioCoche]
         );
-        res.status(201).json({ idAuto: rows.insertId, nombreAuto, marcaAuto });
+        res.status(201).json({ idCoche: rows.insertId, nombreCoche, marcaCoche, precioCoche });
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" });
     }
 };
 
-export const updateinventario = async (req, res) => {
+export const updateCoche = async (req, res) => {
     try {
-        const { idAuto } = req.params;
-        const { nombreAuto, marcaAuto, } = req.body;
+        const { idCoche } = req.params;
+        const { nombreCoche, marcaCoche, precioCoche } = req.body;
 
         const [result] = await pool.query(
-            "UPDATE inventario SET nombreAuto = IFNULL(?, nombreAuto), marcaAuto = IFNULL(?, marcaAuto,) WHERE idAuto = ?",
-            [nombreAuto, marcaAuto, , idAuto]
+            "UPDATE inventario SET nombreCoche = IFNULL(?, nombreCoche), marcaCoche = IFNULL(?, marcaCoche), precioCoche = IFNULL(?, precioCoche) WHERE idCoche = ?",
+            [nombreCoche, marcaCoche, precioCoche]
         );
 
         if (result.affectedRows === 0)

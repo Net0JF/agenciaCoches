@@ -1,9 +1,9 @@
 import express from "express";
 import morgan from "morgan";
 
-import employeesRoutes from "./routes/empleados.routes.js";
-import indexRoutes from "./routes/inventario.routes.js";
-import indexRoutes from "./routes/ventas.routes.js";
+import empleadosRoutes from "./routes/empleados.routes.js";
+import inventarioRoutes from "./routes/inventario.routes.js";
+import ventasRoutes from "./routes/ventas.routes.js";
 import indexRoutes from "./routes/index.routes.js";
 
 const app = express();

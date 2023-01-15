@@ -5,7 +5,7 @@ import {
     getCoche,
     getCoches,
     updateCoche,
-} from "../controllers/coches.controller.js";
+} from "../controllers/inventario.controller.js";
 
 const router = Router();
 
