@@ -43,12 +43,12 @@ export const deleteVenta = async (req, res) => {
 
 export const createVenta = async (req, res) => {
     try {
-        const { idCoche, nombreCoche, precioCoche } = req.body;
+        const { idEmpleado, idCoche} = req.body;
         const [rows] = await pool.query(
-            "INSERT INTO ventas (idCoche. nombreCoche, precioCoche) VALUES (?, ?)",
-            [idCoche, nombreCoche, precioCoche]
+            "INSERT INTO ventas (idEmpleado, idCoche) VALUES (?, ?)",
+            [idEmpleado, idCoche]
         );
-        res.status(201).json({ idVenta: rows.insertId, idCoche, nombreCoche, precioCoche });
+        res.status(201).json({ idVenta: rows.insertId, idEmpleado, idCoche });
     } catch (error) {
         return res.status(500).json({ message: "Algo salió mal" });
     }
@@ -57,11 +57,11 @@ export const createVenta = async (req, res) => {
 export const updateVenta = async (req, res) => {
     try {
         const { idVenta } = req.params;
-        const { idCoche, nombreCoche, precioCoche } = req.body;
+        const { idEmpleado, idCoche } = req.body;
 
         const [result] = await pool.query(
-            "UPDATE ventas SET idCoche = IFNULL(?, idCoche), nombreCoche = IFNULL(?, nombreCoche) WHERE idVenta = ?",
-            [idCoche, nombreCoche, precioCoche]
+            "UPDATE ventas SET idEmpleado = IFNULL(?, idEmpleado), idCoche = IFNULL(?, idCoche) WHERE idVenta = ?",
+            [idEmpleado, idCoche, idVenta]
         );
 
         if (result.affectedRows === 0)

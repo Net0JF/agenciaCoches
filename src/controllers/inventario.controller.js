@@ -11,10 +11,8 @@ export const getCoches = async (req, res) => {
 
 export const getCoche = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("SELECT * FROM inventario WHERE id = ?", [
-            id,
-        ]);
+        const { idCoche } = req.params;
+        const [rows] = await pool.query("SELECT * FROM inventario WHERE idCoche = ?", [idCoche,]);
 
         if (rows.length <= 0) {
             return res.status(404).json({ message: "inventario not found" });
@@ -28,8 +26,8 @@ export const getCoche = async (req, res) => {
 
 export const deleteCoche = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] = await pool.query("DELETE FROM inventario WHERE id = ?", [id]);
+        const { idCoche} = req.params;
+        const [rows] = await pool.query("DELETE FROM inventario WHERE idCoche = ?", [idCoche]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "inventario not found" });
@@ -61,15 +59,15 @@ export const updateCoche = async (req, res) => {
 
         const [result] = await pool.query(
             "UPDATE inventario SET nombreCoche = IFNULL(?, nombreCoche), marcaCoche = IFNULL(?, marcaCoche), precioCoche = IFNULL(?, precioCoche) WHERE idCoche = ?",
-            [nombreCoche, marcaCoche, precioCoche]
-        );
+            [nombreCoche, marcaCoche, precioCoche, idCoche]
+        )
 
         if (result.affectedRows === 0)
             return res.status(404).json({ message: "inventario not found" });
 
-        const [rows] = await pool.query("SELECT * FROM inventario WHERE id = ?", [
-            id,
-        ]);
+        const [rows] = await pool.query("SELECT * FROM inventario WHERE idCoche = ?", [
+            idCoche,
+        ])
 
         res.json(rows[0]);
     } catch (error) {

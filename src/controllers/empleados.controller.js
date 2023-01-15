@@ -43,14 +43,14 @@ export const deleteEmpleado = async (req, res) => {
 
 export const createEmpleado = async (req, res) => {
     try {
-        const { nombreEmpleado, salarioEmpleado } = req.body;
+        const { nombreEmpleado, salarioEmpleado } = req.body
         const [rows] = await pool.query(
             "INSERT INTO empleado (nombreEmpleado, salarioEmpleado) VALUES (?, ?)",
             [nombreEmpleado, salarioEmpleado]
-        );
-        res.status(201).json({ idEmpleado: rows.insertId, nombreEmpleado, salarioEmpleado });
+        )
+        res.status(201).json({ idEmpleado: rows.insertId, nombreEmpleado, salarioEmpleado })
     } catch (error) {
-        return res.status(500).json({ message: "Something goes wrong" });
+        return res.status(500).json({ message: "Something goes wrong" })
     }
 };
 
